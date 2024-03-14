@@ -1,6 +1,7 @@
 package com.rkweber.workshopmongo.resources;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rkweber.workshopmongo.domain.User;
+import com.rkweber.workshopmongo.dto.UserDTO;
 import com.rkweber.workshopmongo.services.UserService;
 
 @RestController
@@ -19,10 +21,13 @@ public class UserResource { // precisa do service
 	private UserService service;
 
 	@RequestMapping(method = RequestMethod.GET) // ou @Getmapping
-	public ResponseEntity<List<User>> findAll(){
+	public ResponseEntity<List<UserDTO>> findAll(){
 		List<User> list = service.findAll(); // busco no banco os usuarios e guardo nesta lista
+		List<UserDTO> listDto = list.stream().
+								map(x -> new UserDTO(x)).
+								collect(Collectors.toList());
 		
-		return ResponseEntity.ok().body(list);
+		return ResponseEntity.ok().body(listDto);
 	}
 }
  
