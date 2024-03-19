@@ -56,12 +56,11 @@ public class UserResource { // precisa do service
 		return ResponseEntity.noContent().build();
 	}
 	
-	@RequestMapping(value="/{id}", method=RequestMethod.PUT) // ou @Postmapping
- 	public ResponseEntity<Void> update(@RequestBody UserDTO objDTo, @PathVariable String id) {
-		User obj = service.fromDTO(objDTo);
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+ 	public ResponseEntity<Void> update(@RequestBody UserDTO objDto, @PathVariable String id) {
+		User obj = service.fromDTO(objDto);
 		obj.setId(id);
 		obj = service.update(obj);
-		
 		return ResponseEntity.noContent().build();
 	}
 	
